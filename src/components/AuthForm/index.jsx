@@ -26,7 +26,7 @@ export default function AuthForm({ type, onSubmit }) {
                 type="email"
                 placeholder="email"
                 {...register("email", { required: "Email is required" })}
-                className="input input-bordered"
+                className="input input-bordered w-full"
               />
               {errors.email && (
                 <span className="text-error text-sm">
@@ -44,7 +44,7 @@ export default function AuthForm({ type, onSubmit }) {
                 type="password"
                 placeholder="password"
                 {...register("password", { required: "Password is required" })}
-                className="input input-bordered"
+                className="input input-bordered w-full"
               />
               {errors.password && (
                 <span className="text-error text-sm">
@@ -66,7 +66,7 @@ export default function AuthForm({ type, onSubmit }) {
                     {...register("displayName", {
                       required: "Display name required",
                     })}
-                    className="input input-bordered"
+                    className="input input-bordered w-full"
                   />
                   {errors.displayName && (
                     <span className="text-error text-sm">
@@ -83,7 +83,7 @@ export default function AuthForm({ type, onSubmit }) {
                     type="url"
                     placeholder="Profile image URL"
                     {...register("imageUrl")}
-                    className="input input-bordered"
+                    className="input input-bordered w-full"
                   />
                 </div>
               </>
