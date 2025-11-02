@@ -1,10 +1,30 @@
+import { useToast } from "buttered-toast";
+
+import { useAuth } from "../providers/AuthProvider";
+import { registerUser } from "../services/firebase";
+
 import AuthForm from "../components/AuthForm";
+import Toast from "../components/Toast";
 
 const RegisterPage = () => {
+  const { show } = useToast();
+  const { setUser } = useAuth();
+
   const handleRegister = async (data) => {
-    console.log("Registering:", data);
-    await new Promise((r) => setTimeout(r, 1000));
-    alert("Registered successfully!");
+    const { email, password, displayName, photoURL } = data;
+    const { success, message, user } = await registerUser(
+      email,
+      password,
+      displayName,
+      photoURL
+    );
+
+    if (success) {
+      setUser(user);
+      show(<Toast type="success" message={message} />, { timeout: 5000 });
+    } else {
+      show(<Toast type="error" message={message} />, { timeout: 5000 });
+    }
   };
 
   return <AuthForm type="register" onSubmit={handleRegister} />;

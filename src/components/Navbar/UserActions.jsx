@@ -1,15 +1,28 @@
 import { NavLink } from "react-router";
+import { useToast } from "buttered-toast";
 
 import { useAuth } from "../../providers/AuthProvider";
+import { logoutUser } from "../../services/firebase";
+
+import Loading from "../Loading";
+import Toast from "../Toast";
 
 const UserActions = () => {
-  const { user, clearUser } = useAuth();
+  const { show } = useToast();
+  const { user, authIsReady, clearUser } = useAuth();
 
-  const handleLogout = () => {
-    clearUser();
+  const handleLogout = async () => {
+    const { success, message } = await logoutUser();
+
+    if (success) {
+      clearUser();
+      show(<Toast type="success" message={message} />, { timeout: 5000 });
+    } else {
+      show(<Toast type="error" message={message} />, { timeout: 5000 });
+    }
   };
 
-  return (
+  return authIsReady ? (
     <div className="flex-none gap-2">
       {user ? (
         <div className="dropdown dropdown-end">
@@ -19,7 +32,7 @@ const UserActions = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img alt="user-avatar" src={user.imageUrl} />
+              <img alt="user-avatar" src={user.photoURL} />
             </div>
           </div>
           <ul
@@ -64,6 +77,8 @@ const UserActions = () => {
         </div>
       )}
     </div>
+  ) : (
+    <Loading />
   );
 };
 

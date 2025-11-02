@@ -1,10 +1,25 @@
+import { useToast } from "buttered-toast";
+
+import { useAuth } from "../providers/AuthProvider";
+import { loginUser } from "../services/firebase";
+
 import AuthForm from "../components/AuthForm";
+import Toast from "../components/Toast";
 
 const LoginPage = () => {
+  const { show } = useToast();
+  const { setUser } = useAuth();
+
   const handleLogin = async (data) => {
-    console.log("Logging in:", data);
-    await new Promise((r) => setTimeout(r, 1000));
-    alert("Logged in successfully!");
+    const { email, password } = data;
+    const { success, message, user } = await loginUser(email, password);
+
+    if (success) {
+      setUser(user);
+      show(<Toast type="success" message={message} />, { timeout: 5000 });
+    } else {
+      show(<Toast type="error" message={message} />, { timeout: 5000 });
+    }
   };
 
   return <AuthForm type="login" onSubmit={handleLogin} />;

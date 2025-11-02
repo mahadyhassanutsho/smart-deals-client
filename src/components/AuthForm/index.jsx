@@ -1,5 +1,8 @@
 import { Link } from "react-router";
 import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+
+import useToggle from "../../hooks/useToggle";
 
 export default function AuthForm({ type, onSubmit }) {
   const {
@@ -7,6 +10,7 @@ export default function AuthForm({ type, onSubmit }) {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
+  const [showPassword, toggleShowPassword] = useToggle();
 
   return (
     <div className="flex items-center justify-center">
@@ -24,7 +28,7 @@ export default function AuthForm({ type, onSubmit }) {
               </label>
               <input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 {...register("email", { required: "Email is required" })}
                 className="input input-bordered w-full"
               />
@@ -40,12 +44,28 @@ export default function AuthForm({ type, onSubmit }) {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="password"
-                placeholder="password"
-                {...register("password", { required: "Password is required" })}
-                className="input input-bordered w-full"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                  className="input input-bordered w-full"
+                />
+
+                <button
+                  type="button"
+                  onClick={toggleShowPassword}
+                  className="absolute right-0 top-0 px-2 h-full flex items-center justify-center cursor-pointer"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
               {errors.password && (
                 <span className="text-error text-sm">
                   {errors.password.message}
@@ -77,12 +97,12 @@ export default function AuthForm({ type, onSubmit }) {
 
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Image URL</span>
+                    <span className="label-text">Photo URL</span>
                   </label>
                   <input
                     type="url"
-                    placeholder="Profile image URL"
-                    {...register("imageUrl")}
+                    placeholder="Your profile photo"
+                    {...register("photoURL")}
                     className="input input-bordered w-full"
                   />
                 </div>
