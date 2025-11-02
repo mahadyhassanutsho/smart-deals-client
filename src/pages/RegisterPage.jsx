@@ -6,6 +6,7 @@ import {
   loginWithProvider,
   GoogleProvider,
 } from "../services/firebase";
+import { postUser } from "../services/server";
 
 import AuthForm from "../components/AuthForm";
 import Toast from "../components/Toast";
@@ -24,6 +25,8 @@ const RegisterPage = () => {
     );
 
     if (success) {
+      const data = await postUser(user);
+      console.log(data);
       setUser(user);
       show(<Toast type="success" message={message} />, { timeout: 5000 });
     } else {
@@ -35,6 +38,8 @@ const RegisterPage = () => {
     const { success, message, user } = await loginWithProvider(GoogleProvider);
 
     if (success) {
+      const data = await postUser(user);
+      console.log(data);
       setUser(user);
       show(<Toast type="success" message={message} />, { timeout: 5000 });
     } else {
