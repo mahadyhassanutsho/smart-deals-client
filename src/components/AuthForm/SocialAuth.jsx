@@ -11,7 +11,7 @@ const SocialAuth = ({
       onClick={onClick}
       disabled={disabled}
       className={`btn btn-${variant} w-full flex items-center justify-center gap-2 ${
-        disabled ? "cursor-not-allowed opacity-70" : ""
+        disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"
       }`}
     >
       {Icon && <Icon className="w-5 h-5" />}
