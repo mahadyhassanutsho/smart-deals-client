@@ -16,13 +16,21 @@ export const postUser = (user) => {
 };
 
 export const postBid = (bid) => {
-  const { product, buyer_image, buyer_name, buyer_email, bid_price, status } =
-    bid;
+  const {
+    product,
+    buyer_image,
+    buyer_name,
+    buyer_email,
+    product_image,
+    bid_price,
+    status,
+  } = bid;
   return request(`${baseUrl}/bids`, "POST", {
     product,
     buyer_image,
     buyer_name,
     buyer_email,
+    product_image,
     bid_price,
     status,
   });
@@ -34,3 +42,8 @@ export const getProductWithId = (id) => request(`${baseUrl}/products/${id}`);
 
 export const getBidsWithProductId = (id) =>
   request(`${baseUrl}/products/bids/${id}`);
+
+export const getBidsByUserEmail = async (email) =>
+  request(`${baseUrl}/bids?email=${email}`);
+
+export const deleteBid = (id) => request(`${baseUrl}/bids/${id}`, "DELETE");

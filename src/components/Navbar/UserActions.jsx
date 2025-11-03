@@ -43,6 +43,9 @@ const UserActions = () => {
               <NavLink to="/profile">Profile</NavLink>
             </li>
             <li>
+              <NavLink to="/my-bids">My Bids</NavLink>
+            </li>
+            <li>
               <button onClick={handleLogout}>Logout</button>
             </li>
           </ul>

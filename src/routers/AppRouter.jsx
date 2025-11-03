@@ -11,6 +11,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import ProfilePage from "../pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
 import Loading from "../components/Loading";
+import MyBidsPage from "../pages/MyBidsPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "my-bids",
+        element: (
+          <ProtectedRoute>
+            <MyBidsPage />
           </ProtectedRoute>
         ),
       },

@@ -28,6 +28,7 @@ export default function Product() {
   const handleBid = async (data) => {
     const bid = {
       ...data,
+      product_image: product.image,
       bid_price: Number(data.bid_price),
       status: "pending",
       buyer_image: user.photoURL,
