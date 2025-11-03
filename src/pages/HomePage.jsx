@@ -11,7 +11,7 @@ const HomePage = () => {
     <main className="p-6 max-w-6xl mx-auto">
       <Hero />
       <h2 className="text-2xl font-bold mt-16 mb-4">Latest Products</h2>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading type="block" />}>
         <ProductsList productsPromise={getLatestProducts()} />
       </Suspense>
     </main>
