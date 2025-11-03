@@ -8,6 +8,7 @@ import { postBid } from "../services/server";
 
 import FormInput from "../components/FormInput";
 import Toast from "../components/Toast";
+import BidList from "../components/Bid/BidList";
 
 export default function Product() {
   const {
@@ -27,6 +28,7 @@ export default function Product() {
   const handleBid = async (data) => {
     const bid = {
       ...data,
+      bid_price: Number(data.bid_price),
       status: "pending",
       buyer_image: user.photoURL,
       product: product._id,
@@ -122,6 +124,10 @@ export default function Product() {
       <section className="mt-14">
         <h2 className="text-2xl font-bold mb-3">Description</h2>
         <p className="leading-relaxed opacity-90">{product.description}</p>
+      </section>
+
+      <section className="mt-14">
+        <BidList productId={product._id} />
       </section>
 
       <section className="mt-14">

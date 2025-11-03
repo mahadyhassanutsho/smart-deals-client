@@ -31,3 +31,6 @@ export const postBid = (bid) => {
 export const getLatestProducts = () => request(`${baseUrl}/products/latest`);
 
 export const getProductWithId = (id) => request(`${baseUrl}/products/${id}`);
+
+export const getBidsWithProductId = (id) =>
+  request(`${baseUrl}/products/bids/${id}`);
