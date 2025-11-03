@@ -1,4 +1,5 @@
 import { use } from "react";
+import { Link } from "react-router";
 
 const ProductsList = ({ productsPromise }) => {
   const products = use(productsPromise);
@@ -7,7 +8,7 @@ const ProductsList = ({ productsPromise }) => {
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
       {products.map((p) => (
         <div
-          key={p.id}
+          key={p._id}
           className="bg-base-200 shadow-md rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform"
         >
           <img
@@ -20,9 +21,12 @@ const ProductsList = ({ productsPromise }) => {
             <p className="text-sm text-gray-500">
               Starting from ${p.price_min} – up to ${p.price_max}
             </p>
-            <button className="btn btn-sm btn-primary mt-3 w-full">
+            <Link
+              to={`/products/${p._id}`}
+              className="btn btn-sm btn-primary mt-3 w-full"
+            >
               Bid Now
-            </button>
+            </Link>
           </div>
         </div>
       ))}

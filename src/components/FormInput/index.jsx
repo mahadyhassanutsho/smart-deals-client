@@ -1,6 +1,8 @@
 const FormInput = ({
   label,
   type = "text",
+  readOnly = false,
+  defaultValue,
   placeholder,
   register,
   error,
@@ -14,7 +16,9 @@ const FormInput = ({
       <div className="relative">
         <input
           type={type}
+          readOnly={readOnly}
           placeholder={placeholder}
+          defaultValue={defaultValue}
           {...register}
           className="input input-bordered w-full"
         />

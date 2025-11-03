@@ -15,4 +15,19 @@ export const postUser = (user) => {
   return request(`${baseUrl}/users`, "POST", { email, displayName, photoURL });
 };
 
+export const postBid = (bid) => {
+  const { product, buyer_image, buyer_name, buyer_email, bid_price, status } =
+    bid;
+  return request(`${baseUrl}/bids`, "POST", {
+    product,
+    buyer_image,
+    buyer_name,
+    buyer_email,
+    bid_price,
+    status,
+  });
+};
+
 export const getLatestProducts = () => request(`${baseUrl}/products/latest`);
+
+export const getProductWithId = (id) => request(`${baseUrl}/products/${id}`);

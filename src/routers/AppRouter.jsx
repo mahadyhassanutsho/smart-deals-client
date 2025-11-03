@@ -1,7 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 
+import { getProductWithId } from "../services/server";
+
 import AppLayout from "../layouts/AppLayout";
 import HomePage from "../pages/HomePage";
+import ProductPage from "../pages/ProductPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -14,6 +17,7 @@ const router = createBrowserRouter([
     Component: AppLayout,
     children: [
       { path: "", index: true, Component: HomePage },
+
       { path: "login", Component: LoginPage },
       { path: "register", Component: RegisterPage },
       {
@@ -23,6 +27,15 @@ const router = createBrowserRouter([
             <ProfilePage />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "products/:id",
+        element: (
+          <ProtectedRoute>
+            <ProductPage />
+          </ProtectedRoute>
+        ),
+        loader: ({ params }) => getProductWithId(params.id),
       },
     ],
   },
