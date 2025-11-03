@@ -14,3 +14,5 @@ export const postUser = (user) => {
   const { email, displayName, photoURL } = user;
   return request(`${baseUrl}/users`, "POST", { email, displayName, photoURL });
 };
+
+export const getLatestProducts = () => request(`${baseUrl}/products/latest`);
