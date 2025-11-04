@@ -2,7 +2,7 @@ import { use, useState, useEffect, createContext } from "react";
 import { subscribeToAuthStateChange } from "../services/firebase.js";
 
 const AuthContext = createContext({
-  user: { displayName: "", email: "", photoURL: "" },
+  user: { accessToken: "", displayName: "", email: "", photoURL: "" },
   authIsReady: false,
   // eslint-disable-next-line no-unused-vars
   setUser: (user) => {},

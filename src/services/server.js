@@ -1,9 +1,9 @@
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
-const request = async (url, method, body) => {
+const request = async (url, method, headers, body) => {
   const res = await fetch(url, {
     method,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: body ? JSON.stringify(body) : undefined,
   });
   if (!res.ok) throw new Error(`${method} ${url} failed: ${res.status}`);
@@ -43,7 +43,9 @@ export const getProductWithId = (id) => request(`${baseUrl}/products/${id}`);
 export const getBidsWithProductId = (id) =>
   request(`${baseUrl}/products/bids/${id}`);
 
-export const getBidsByUserEmail = async (email) =>
-  request(`${baseUrl}/bids?email=${email}`);
+export const getBidsByUserEmail = async (email, accessToken) =>
+  request(`${baseUrl}/bids?email=${email}`, "GET", {
+    authorization: `Bearer ${accessToken}`,
+  });
 
 export const deleteBid = (id) => request(`${baseUrl}/bids/${id}`, "DELETE");

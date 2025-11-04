@@ -97,9 +97,9 @@ const MyBidsContent = ({ bidsPromise, refreshKey }) => {
   );
 };
 
-const MyBids = ({ email }) => {
+const MyBids = ({ user }) => {
   const [refreshCounter, setRefreshCounter] = useState(0);
-
+  const { email, accessToken } = user;
   const refreshKey = {
     value: refreshCounter,
     update: setRefreshCounter,
@@ -111,7 +111,7 @@ const MyBids = ({ email }) => {
 
       <Suspense fallback={<Loading type="block" />}>
         <MyBidsContent
-          bidsPromise={getBidsByUserEmail(email)}
+          bidsPromise={getBidsByUserEmail(email, accessToken)}
           refreshKey={refreshKey}
         />
       </Suspense>
