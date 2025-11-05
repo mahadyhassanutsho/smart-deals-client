@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import { useToast } from "buttered-toast";
@@ -11,6 +11,12 @@ import Toast from "../components/Toast";
 import BidList from "../components/Bid/BidList";
 
 export default function Product() {
+  const [refreshCounter, setRefreshCounter] = useState(0);
+  const refreshKey = {
+    value: refreshCounter,
+    update: setRefreshCounter,
+  };
+
   const {
     register,
     handleSubmit,
@@ -38,6 +44,7 @@ export default function Product() {
     closeModal();
     const response = await postBid(bid);
     if (response.acknowledged) {
+      refreshKey.update();
       show(
         <Toast
           type="success"
