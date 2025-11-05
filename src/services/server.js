@@ -12,7 +12,12 @@ const request = async (url, method, headers, body) => {
 
 export const postUser = (user) => {
   const { email, displayName, photoURL } = user;
-  return request(`${baseUrl}/users`, "POST", { email, displayName, photoURL });
+  return request(
+    `${baseUrl}/users`,
+    "POST",
+    {},
+    { email, displayName, photoURL }
+  );
 };
 
 export const postBid = (bid) => {
@@ -25,15 +30,20 @@ export const postBid = (bid) => {
     bid_price,
     status,
   } = bid;
-  return request(`${baseUrl}/bids`, "POST", {
-    product,
-    buyer_image,
-    buyer_name,
-    buyer_email,
-    product_image,
-    bid_price,
-    status,
-  });
+  return request(
+    `${baseUrl}/bids`,
+    "POST",
+    {},
+    {
+      product,
+      buyer_image,
+      buyer_name,
+      buyer_email,
+      product_image,
+      bid_price,
+      status,
+    }
+  );
 };
 
 export const getLatestProducts = () => request(`${baseUrl}/products/latest`);
