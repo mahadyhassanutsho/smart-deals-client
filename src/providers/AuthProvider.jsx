@@ -1,5 +1,6 @@
 import { use, useState, useEffect, createContext } from "react";
 import { subscribeToAuthStateChange } from "../services/firebase.js";
+import { setAccessToken } from "../services/server.js";
 
 const AuthContext = createContext({
   user: { accessToken: "", displayName: "", email: "", photoURL: "" },
@@ -33,10 +34,10 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = subscribeToAuthStateChange((user) => {
       setCurrentUser(user);
       setAuthIsReady(true);
+      setAccessToken(user?.accessToken);
     });
-
-    return () => unsubscribe();
-  }, [currentUser]);
+    return unsubscribe;
+  }, []);
 
   return (
     <AuthContext.Provider

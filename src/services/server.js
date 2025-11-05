@@ -1,61 +1,33 @@
-const baseUrl = import.meta.env.VITE_SERVER_URL;
+import axios from "axios";
 
-const request = async (url, method, headers, body) => {
-  const res = await fetch(url, {
-    method,
-    headers: { "Content-Type": "application/json", ...headers },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  if (!res.ok) throw new Error(`${method} ${url} failed: ${res.status}`);
-  return res.json();
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
+export const axiosInstance = axios.create({ baseURL });
+export const axiosInstanceSecure = axios.create({ baseURL });
+
+let accessToken = null;
+export const setAccessToken = (token) => {
+  accessToken = token;
 };
 
-export const postUser = (user) => {
-  const { email, displayName, photoURL } = user;
-  return request(
-    `${baseUrl}/users`,
-    "POST",
-    {},
-    { email, displayName, photoURL }
-  );
-};
+axiosInstanceSecure.interceptors.request.use((config) => {
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
 
-export const postBid = (bid) => {
-  const {
-    product,
-    buyer_image,
-    buyer_name,
-    buyer_email,
-    product_image,
-    bid_price,
-    status,
-  } = bid;
-  return request(
-    `${baseUrl}/bids`,
-    "POST",
-    {},
-    {
-      product,
-      buyer_image,
-      buyer_name,
-      buyer_email,
-      product_image,
-      bid_price,
-      status,
-    }
-  );
-};
+const unwrap = (promise) => promise.then((res) => res.data);
 
-export const getLatestProducts = () => request(`${baseUrl}/products/latest`);
-
-export const getProductWithId = (id) => request(`${baseUrl}/products/${id}`);
-
+export const postUser = (user) => unwrap(axiosInstance.post("/users", user));
+export const postBid = (bid) => unwrap(axiosInstanceSecure.post("/bids", bid));
+export const getLatestProducts = () =>
+  unwrap(axiosInstance.get("/products/latest"));
+export const getProductWithId = (id) =>
+  unwrap(axiosInstance.get(`/products/${id}`));
 export const getBidsWithProductId = (id) =>
-  request(`${baseUrl}/products/bids/${id}`);
-
-export const getBidsByUserEmail = async (email, accessToken) =>
-  request(`${baseUrl}/bids?email=${email}`, "GET", {
-    authorization: `Bearer ${accessToken}`,
-  });
-
-export const deleteBid = (id) => request(`${baseUrl}/bids/${id}`, "DELETE");
+  unwrap(axiosInstance.get(`/products/bids/${id}`));
+export const getBidsByUserEmail = (email) =>
+  unwrap(axiosInstanceSecure.get(`/bids?email=${email}`));
+export const deleteBid = (id) =>
+  unwrap(axiosInstanceSecure.delete(`/bids/${id}`));
